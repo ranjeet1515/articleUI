@@ -63,6 +63,19 @@ export function postArticleCreate(payload) {
   };
 }
 
+export function getArticleSearchList(userLoginId, searchWord) {
+  const request = axios.get(
+    `${ROOT_URL}/article/search/?user_login_id=${userLoginId}&search_word=${searchWord}`
+  );
+  request.catch((error) => {
+    return error;
+  });
+  return {
+    type: "GET_ARTICLE_SEARCH_LIST",
+    payload: request,
+  };
+}
+
 // to store local states
 export function setArticleList(data) {
   return {

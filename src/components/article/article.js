@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import "./article.css";
 import { Button, Row, Col, Table, Tag, Space, Popconfirm, Input } from "antd";
-import { getArticleList, setArticleSearch } from "../actions";
+import {
+  getArticleList,
+  setArticleSearch,
+  getArticleSearchList,
+} from "../actions";
 import ArticleShow from "./article_show";
 import ArticleList from "./article_list";
 import ArticleCreate from "./article_create";
@@ -18,6 +22,7 @@ function Article(props) {
     uiData,
     loginData,
     setArticleSearch,
+    getArticleSearchList,
   } = props;
 
   useEffect(() => {
@@ -28,6 +33,7 @@ function Article(props) {
 
   const onSearch = (value) => {
     setArticleSearch(true);
+    getArticleSearchList(loginData?.content?.login_id, value);
   };
   return (
     <div id="article">
@@ -39,19 +45,21 @@ function Article(props) {
       </Row>
 
       {(uiData.articleList || uiData.articleShow || uiData.articleSearch) && (
-        <div className="search">
-          <Search
-            placeholder="input search text"
-            onSearch={onSearch}
-            enterButton
-          />
-        </div>
+        <Row>
+          <div className="search">
+            <Search
+              placeholder="Search by Title"
+              onSearch={onSearch}
+              enterButton
+            />
+          </div>
+        </Row>
       )}
       {uiData.articleList && <ArticleList article={article} />}
       {uiData.articleCreate && <ArticleCreate />}
       {uiData.articleShow && <ArticleShow />}
       {uiData.articleEdit && <ArticleEdit />}
-      {uiData.articleSearch && <ArticleSearch />}
+      {uiData.articleSearch && <ArticleSearch article={article} />}
     </div>
   );
 }
@@ -68,5 +76,6 @@ export default {
   component: connect(mapStateToProps, {
     getArticleList,
     setArticleSearch,
+    getArticleSearchList,
   })(Article),
 };

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import "./register.css";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { postRegister } from "../actions";
 
 const layout = {
@@ -20,13 +20,30 @@ const tailLayout = {
 };
 
 function Register(props) {
-  const { postRegister } = props;
+  const { postRegister, registerData } = props;
 
   const [form] = Form.useForm();
 
+  useEffect(() => {
+    if (registerData?.result?.status == 200) {
+      message.success("Registered succesfully");
+      return props.history.push("/login");
+    }
+    if (registerData?.result?.status == 403) {
+      message.error("Email Id already exist");
+    }
+  }, [registerData]);
+
   const onFinish = (values) => {
-    console.log(values);
-    postRegister(values);
+    if (values.password === values.confirm_password) {
+      const payload = {
+        email: values.email,
+        password: values.password,
+      };
+      postRegister(payload);
+    } else {
+      message.error("password does not match");
+    }
   };
 
   const onReset = () => {
@@ -85,6 +102,12 @@ function Register(props) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    registerData: state.register.data,
+  };
+};
+
 export default {
-  component: connect(null, { postRegister })(Register),
+  component: connect(mapStateToProps, { postRegister })(Register),
 };

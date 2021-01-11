@@ -12,6 +12,7 @@ function ArticleList(props) {
     setArticleEdit,
     article: { isArticleListPending, list, getArticleListError },
   } = props;
+
   const [dataSource, setDataSource] = useState(null);
 
   if (isArticleListPending) {

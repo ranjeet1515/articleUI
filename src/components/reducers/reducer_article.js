@@ -38,6 +38,25 @@ export default function ArticleReducer(state = {}, action) {
         isPostArticleCreatePending: false,
         postArticleCreateError: action.payload,
       };
+    case "GET_ARTICLE_SEARCH_LIST_PENDING":
+      return {
+        ...state,
+        isGetArticleSearchListPending: true,
+        getArticleSearchListError: undefined,
+      };
+    case "GET_ARTICLE_SEARCH_LIST_FULFILLED":
+      return {
+        ...state,
+        isGetArticleSearchListPending: false,
+        searchList: action.payload.data,
+        getArticleSearchListError: undefined,
+      };
+    case "GET_ARTICLE_SEARCH_LIST_REJECTED":
+      return {
+        ...state,
+        isGetArticleSearchListPending: false,
+        getArticleSearchListError: action.payload,
+      };
     default:
       return state;
   }

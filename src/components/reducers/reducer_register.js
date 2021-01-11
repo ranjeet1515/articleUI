@@ -10,7 +10,7 @@ export default function PostRegisterReducer(state = {}, action) {
       return {
         ...state,
         isPostRegisterPending: false,
-        register: action.payload.data,
+        data: action.payload.data,
         postRegisterError: undefined,
       };
     case "POST_REGISTER_REJECTED":
