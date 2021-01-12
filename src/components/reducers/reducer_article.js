@@ -1,4 +1,12 @@
-export default function ArticleReducer(state = {}, action) {
+const defaultState = {
+  list: undefined,
+  data: undefined,
+  newArticle: undefined,
+  editArticle: undefined,
+  deleteData: undefined,
+  searchList: undefined,
+};
+export default function ArticleReducer(state = defaultState, action) {
   switch (action.type) {
     case "GET_ARTICLE_LIST_PENDING":
       return {
@@ -114,6 +122,8 @@ export default function ArticleReducer(state = {}, action) {
         isDeleteArticlePending: false,
         deleteArticleError: action.payload,
       };
+    case "RESET_ARTICLE":
+      return defaultState;
     default:
       return state;
   }

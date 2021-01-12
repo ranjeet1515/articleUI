@@ -38,7 +38,7 @@ function ArticleCreate(props) {
     if (article?.newArticle?.result?.status === 200) {
       message.success("Article created successfully");
     }
-  }, [article]);
+  }, [article?.newArticle]);
 
   const [form] = Form.useForm();
 

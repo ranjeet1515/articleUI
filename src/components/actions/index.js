@@ -109,6 +109,13 @@ export function putArticleDelete(artricleId) {
   };
 }
 
+//Reset state
+export function resetArticle() {
+  return {
+    type: "RESET_ARTICLE",
+  };
+}
+
 // to store local states
 export function setArticleList(data) {
   return {

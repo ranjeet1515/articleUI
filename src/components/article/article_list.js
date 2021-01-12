@@ -8,6 +8,7 @@ import {
   setArticleEditId,
   getArticleList,
   putArticleDelete,
+  resetArticle,
 } from "../actions";
 import "./article.css";
 import {
@@ -30,6 +31,7 @@ function ArticleList(props) {
     setArticleEditId,
     getArticleList,
     login_id,
+    resetArticle,
     putArticleDelete,
     article: { isArticleListPending, list, deleteData },
   } = props;
@@ -39,12 +41,14 @@ function ArticleList(props) {
   const pageSize = 8;
 
   useEffect(() => {
+    resetArticle();
     getArticleList(login_id, pageSize, pageNumber);
   }, []);
 
   useEffect(() => {
-    if (deleteData?.result?.status === 200) {
+    if (deleteData?.result?.status == 200) {
       message.success("Article Succesfully Deleted");
+      resetArticle();
       getArticleList(login_id, pageSize, pageNumber);
     }
   }, [deleteData]);
@@ -169,4 +173,5 @@ export default connect(mapStateToProps, {
   setArticleEditId,
   getArticleList,
   putArticleDelete,
+  resetArticle,
 })(ArticleList);
