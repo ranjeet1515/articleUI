@@ -1,0 +1,10 @@
+#article .login-detail {
+  margin-bottom: 20px;
+}
+#article .ant-input-search {
+  width: 200px;
+}
+#article .search {
+  margin: 20px 0px;
+  text-align: right;
+}

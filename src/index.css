@@ -1,0 +1,51 @@
+#root,
+#root > div,
+#root > div > div,
+#root > div > div > div {
+  height: 100%;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+  margin: 100px 250px;
+}
+
+body {
+  overflow: hidden;
+  height: 100%;
+}
+
+main > div:first-child {
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  height: 100%;
+}
+
+input,
+textarea,
+.ant-input,
+.ant-select,
+.ant-select-dropdown,
+.ant-form {
+  font-family: Noto Sans JP;
+}
+
+.ant-spin {
+  text-align: center;
+  display: inherit;
+  font-size: 20px;
+  color: #00a0f0;
+  padding-top: 20%;
+}
+
+.ja-font-regular {
+  font-family: Noto Sans JP, NotoSans;
+}
+
+.ja-font-bold {
+  font-family: Noto Sans JP, NotoSans;
+  font-style: bold;
+}
