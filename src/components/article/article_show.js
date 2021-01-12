@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import "./article.css";
-import { Button, Row, Col, Table, Tag, Space, Popconfirm } from "antd";
+import { Row, Col, Spin } from "antd";
 import { setArticleList } from "../actions";
 
 function ArticleShow(props) {
-  const { setArticleList } = props;
+  const {
+    setArticleList,
+    article: { isGetArticleDetailsPending, details },
+  } = props;
+
+  if (isGetArticleDetailsPending) {
+    return <Spin tip="Loading..." />;
+  }
 
   const back = () => {
     setArticleList(true);
@@ -13,8 +20,22 @@ function ArticleShow(props) {
 
   return (
     <div id="article-show">
-      <a onClick={back}>Back</a>
-      show article
+      <Row className="header">
+        <Col span={4}>
+          <h2>Article Details</h2>
+        </Col>
+        <Col span={1} offset={19}>
+          <a onClick={back}>Back</a>
+        </Col>
+      </Row>
+      <div>
+        <h2>{details?.content?.article?.title}</h2>
+        <p>
+          <span>{details?.content?.article?.publish_date}</span>
+          <span> by {details?.content?.article?.author}</span>
+        </p>
+        <p>{details?.content?.article?.content}</p>
+      </div>
     </div>
   );
 }

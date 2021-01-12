@@ -38,6 +38,44 @@ export default function ArticleReducer(state = {}, action) {
         isPostArticleCreatePending: false,
         postArticleCreateError: action.payload,
       };
+    case "PUT_ARTICLE_EDIT_PENDING":
+      return {
+        ...state,
+        isPutArticleEditPending: true,
+        putArticleEditError: undefined,
+      };
+    case "PUT_ARTICLE_EDIT_FULFILLED":
+      return {
+        ...state,
+        isPutArticleEditPending: false,
+        editArticle: action.payload.data,
+        putArticleEditError: undefined,
+      };
+    case "PUT_ARTICLE_EDIT_REJECTED":
+      return {
+        ...state,
+        isPutArticleEditPending: false,
+        putArticleEditError: action.payload,
+      };
+    case "GET_ARTICLE_DETAILS_PENDING":
+      return {
+        ...state,
+        isGetArticleDetailsPending: true,
+        getArticleDetailsError: undefined,
+      };
+    case "GET_ARTICLE_DETAILS_FULFILLED":
+      return {
+        ...state,
+        isGetArticleDetailsPending: false,
+        details: action.payload.data,
+        getArticleDetailsError: undefined,
+      };
+    case "GET_ARTICLE_DETAILS_REJECTED":
+      return {
+        ...state,
+        isGetArticleDetailsPending: false,
+        getArticleDetailsError: action.payload,
+      };
     case "GET_ARTICLE_SEARCH_LIST_PENDING":
       return {
         ...state,

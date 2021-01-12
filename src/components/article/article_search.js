@@ -1,67 +1,58 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { setArticleList, getArticleSearchList } from "../actions";
+import { setArticleList } from "../actions";
 import "./article.css";
-import { Button, Row, Col, Table, Tag, Space, Popconfirm, Spin } from "antd";
+import { Row, Col, Spin, Result } from "antd";
 
 function ArticleSearchList(props) {
   const {
-    article,
     setArticleList,
-    getArticleSearchList,
     article: {
-      isGetArticleSearchListPending,
       searchList,
+      isGetArticleSearchListPending,
       getArticleSearchListError,
     },
   } = props;
 
-  const [dataSource, setDataSource] = useState(null);
-
-  if (isGetArticleSearchListPending) {
+  if (isGetArticleSearchListPending || getArticleSearchListError) {
     return <Spin tip="Loading..." />;
   }
-
-  const columns = [
-    {
-      title: "c",
-      dataIndex: "title",
-      key: "title",
-      width: "266px",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Author",
-      dataIndex: "author",
-      key: "author",
-    },
-    {
-      title: "Publish Date",
-      dataIndex: "publish_date",
-      key: "publish_date",
-    },
-  ];
 
   const back = () => {
     setArticleList(true);
   };
 
+  if (searchList?.content?.article_list?.length < 1) {
+    return (
+      <div>
+        <a onClick={back}>Back</a>
+        <Result title="No Record Found" />
+      </div>
+    );
+  }
   return (
     <div id="article-search">
-      <a onClick={back}>Back</a>
-      {searchList?.content?.article_list.map((data, index) => (
-        <Row>
-          <Col span={4}>
-            <h3>{data.title}</h3>
-          </Col>
-          <Col span={6} offset={10}>
-            {data.publish_date} by {data.author}
-          </Col>
-        </Row>
-      ))}
+      <Row className="header">
+        <Col span={4}>
+          <h2>Search Article</h2>
+        </Col>
+        <Col span={1} offset={19}>
+          <a onClick={back}>Back</a>
+        </Col>
+      </Row>
+      <div className="search-content">
+        {searchList?.content?.article_list.map((data, index) => (
+          <Row>
+            <Col span={6} offset={4}>
+              <h3>{data.title}</h3>
+            </Col>
+            <Col span={6} offset={4}>
+              {data.publish_date} by {data.author}
+            </Col>
+          </Row>
+        ))}
+      </div>
     </div>
   );
 }
-export default connect(null, { setArticleList, getArticleSearchList })(
-  ArticleSearchList
-);
+export default connect(null, { setArticleList })(ArticleSearchList);

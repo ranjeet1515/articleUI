@@ -8,7 +8,7 @@
 main {
   height: 100%;
   width: 100%;
-  margin: 100px 250px;
+  margin: 20px 250px;
 }
 
 body {
@@ -31,6 +31,19 @@ textarea,
 .ant-select-dropdown,
 .ant-form {
   font-family: Noto Sans JP;
+}
+
+button {
+  margin-right: 20px;
+}
+
+#common-error {
+  text-align: center;
+  margin: 40px 0px;
+}
+
+#common-error .content {
+  font-size: 16px;
 }
 
 .ant-spin {

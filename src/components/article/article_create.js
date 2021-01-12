@@ -1,37 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { postArticleCreate, setArticleList } from "../actions";
+import moment from "moment";
+import {
+  Row,
+  Col,
+  message,
+  Form,
+  Input,
+  Button,
+  DatePicker,
+  Switch,
+} from "antd";
 import "./article.css";
-import { Form, Input, Button, DatePicker, Switch } from "antd";
 
 const { TextArea } = Input;
 
 const layout = {
   labelCol: {
-    span: 8,
+    span: 6,
   },
   wrapperCol: {
-    span: 8,
+    span: 16,
   },
 };
 const tailLayout = {
   wrapperCol: {
-    offset: 8,
-    span: 8,
+    offset: 6,
+    span: 16,
   },
 };
 
 function ArticleCreate(props) {
-  const { postArticleCreate, article, setArticleList } = props;
+  const { postArticleCreate, article, setArticleList, login_id } = props;
 
   useEffect(() => {
-    postArticleCreate();
-  }, []);
+    if (article?.newArticle?.result?.status === 200) {
+      message.success("Article created successfully");
+    }
+  }, [article]);
 
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    postArticleCreate(values);
+    const payload = {
+      author: values.author,
+      publish_date: moment(values.publish_date).format("YYYY-MM-DD"),
+      title: values.title,
+      user_login_id: login_id,
+      is_published: values.is_published,
+      content: values.content,
+    };
+    postArticleCreate(payload);
   };
 
   const onReset = () => {
@@ -43,9 +63,24 @@ function ArticleCreate(props) {
   };
 
   return (
-    <div id="article">
-      <a onClick={back}>Back</a>
-      <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
+    <div id="article-create">
+      <Row className="header">
+        <Col span={4}>
+          <h2>New Article</h2>
+        </Col>
+        <Col span={1} offset={19}>
+          <a onClick={back}>Back</a>
+        </Col>
+      </Row>
+      <Form
+        {...layout}
+        form={form}
+        name="control-hooks"
+        onFinish={onFinish}
+        initialValues={{
+          is_published: false,
+        }}
+      >
         <Form.Item
           label="Title"
           name="title"
@@ -70,7 +105,7 @@ function ArticleCreate(props) {
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Is Publish">
+        <Form.Item label="Is Published" name="is_published">
           <Switch />
         </Form.Item>
         <Form.Item
@@ -87,7 +122,7 @@ function ArticleCreate(props) {
         </Form.Item>
         <Form.Item
           label="Content"
-          name="article_content"
+          name="content"
           rules={[
             {
               required: true,
@@ -109,12 +144,6 @@ function ArticleCreate(props) {
     </div>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    article: state.article,
-  };
-};
 
 export default connect(null, { postArticleCreate, setArticleList })(
   ArticleCreate

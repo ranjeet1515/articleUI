@@ -17,9 +17,9 @@ axios.interceptors.response.use(
   }
 );
 
-export function getArticleList() {
+export function getArticleList(login_id, page_size, page_number) {
   const request = axios.get(
-    `${ROOT_URL}/article/list?user_login_id=${1}&page_size=${10}&page_number=${1}`
+    `${ROOT_URL}/article/list?user_login_id=${login_id}&page_size=${page_size}&page_number=${page_number}`
   );
   request.catch((error) => {
     return error;
@@ -63,6 +63,28 @@ export function postArticleCreate(payload) {
   };
 }
 
+export function putArticleEdit(id, payload) {
+  const request = axios.put(`${ROOT_URL}/article/set/${id}`, payload);
+  request.catch((error) => {
+    return error.response;
+  });
+  return {
+    type: "PUT_ARTICLE_EDIT",
+    payload: request,
+  };
+}
+
+export function getArticleDetails(id) {
+  const request = axios.get(`${ROOT_URL}/article/get?article_id=${id}`);
+  request.catch((error) => {
+    return error.response;
+  });
+  return {
+    type: "GET_ARTICLE_DETAILS",
+    payload: request,
+  };
+}
+
 export function getArticleSearchList(userLoginId, searchWord) {
   const request = axios.get(
     `${ROOT_URL}/article/search/?user_login_id=${userLoginId}&search_word=${searchWord}`
@@ -86,6 +108,7 @@ export function putArticleDelete(artricleId) {
     payload: request,
   };
 }
+
 // to store local states
 export function setArticleList(data) {
   return {
@@ -111,6 +134,13 @@ export function setArticleShow(data) {
 export function setArticleEdit(data) {
   return {
     type: "SET_ARTICLE_EDIT",
+    payload: data,
+  };
+}
+
+export function setArticleEditId(data) {
+  return {
+    type: "SET_ARTICLE_EDIT_ID",
     payload: data,
   };
 }

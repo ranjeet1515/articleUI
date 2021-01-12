@@ -1,6 +1,3 @@
-// helper functions to persist the redux state in local storage
-// see: https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage
-
 export const loadState = () => {
   try {
     const serializedState = localStorage.getItem("state");
