@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import "./article.css";
-import { Button, Row, Col, Table, Tag, Space, Popconfirm, Input } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  Table,
+  Tag,
+  Space,
+  Popconfirm,
+  Input,
+  message,
+} from "antd";
 import {
   getArticleList,
   setArticleSearch,
@@ -23,11 +33,19 @@ function Article(props) {
     loginData,
     setArticleSearch,
     getArticleSearchList,
+    article: { isDeleteArticlePending, deleteArticleError, deleteData },
   } = props;
 
   useEffect(() => {
     getArticleList();
   }, []);
+
+  useEffect(() => {
+    if (deleteData?.result?.status == 200) {
+      message.success("Article Succesfully Deleted");
+      getArticleList();
+    }
+  }, [deleteData]);
 
   const logOut = () => {};
 

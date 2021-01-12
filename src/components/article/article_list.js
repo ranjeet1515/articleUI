@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { setArticleCreate, setArticleShow, setArticleEdit } from "../actions";
+import {
+  setArticleCreate,
+  setArticleShow,
+  setArticleEdit,
+  putArticleDelete,
+} from "../actions";
 import "./article.css";
 import { Button, Row, Col, Table, Tag, Space, Popconfirm, Spin } from "antd";
 
@@ -10,7 +15,15 @@ function ArticleList(props) {
     setArticleCreate,
     setArticleShow,
     setArticleEdit,
-    article: { isArticleListPending, list, getArticleListError },
+    putArticleDelete,
+    article: {
+      isArticleListPending,
+      list,
+      getArticleListError,
+      isDeleteArticlePending,
+      deleteArticleError,
+      deleteData,
+    },
   } = props;
 
   const [dataSource, setDataSource] = useState(null);
@@ -75,6 +88,7 @@ function ArticleList(props) {
   const handleDelete = (key) => {
     const dataSource = [...list?.content?.article_list];
     setDataSource(dataSource.filter((item) => item.article_id !== key));
+    putArticleDelete(key);
   };
 
   const callNew = () => {
@@ -100,4 +114,5 @@ export default connect(null, {
   setArticleCreate,
   setArticleShow,
   setArticleEdit,
+  putArticleDelete,
 })(ArticleList);

@@ -76,6 +76,16 @@ export function getArticleSearchList(userLoginId, searchWord) {
   };
 }
 
+export function putArticleDelete(artricleId) {
+  const request = axios.put(`${ROOT_URL}/article/delete/${artricleId}`);
+  request.catch((error) => {
+    return error;
+  });
+  return {
+    type: "PUT_ARTICLE_DELETE",
+    payload: request,
+  };
+}
 // to store local states
 export function setArticleList(data) {
   return {
@@ -108,6 +118,12 @@ export function setArticleEdit(data) {
 export function setArticleSearch(data) {
   return {
     type: "SET_ARTICLE_SEARCH",
+    payload: data,
+  };
+}
+export function setArticleDelete(data) {
+  return {
+    type: "PUT_ARTICLE_DELETE",
     payload: data,
   };
 }

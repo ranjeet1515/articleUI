@@ -57,6 +57,25 @@ export default function ArticleReducer(state = {}, action) {
         isGetArticleSearchListPending: false,
         getArticleSearchListError: action.payload,
       };
+    case "PUT_ARTICLE_DELETE_PENDING":
+      return {
+        ...state,
+        isDeleteArticlePending: true,
+        deleteArticleError: undefined,
+      };
+    case "PUT_ARTICLE_DELETE_FULFILLED":
+      return {
+        ...state,
+        isDeleteArticlePending: false,
+        deleteData: action.payload.data,
+        deleteArticleError: undefined,
+      };
+    case "PUT_ARTICLE_DELETE_REJECTED":
+      return {
+        ...state,
+        isDeleteArticlePending: false,
+        deleteArticleError: action.payload,
+      };
     default:
       return state;
   }
