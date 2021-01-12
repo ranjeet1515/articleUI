@@ -43,6 +43,11 @@ export default function UIDataReducer(state = defaultState, action) {
         articleEdit: action.payload,
         articleSearch: false,
       };
+    case "SET_ARTICLE_EDIT_ID":
+      return {
+        ...state,
+        editArticleId: action.payload,
+      };
     case "SET_ARTICLE_SEARCH":
       return {
         ...state,

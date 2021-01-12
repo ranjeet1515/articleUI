@@ -1,82 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import "./article.css";
-import {
-  Button,
-  Row,
-  Col,
-  Table,
-  Tag,
-  Space,
-  Popconfirm,
-  Input,
-  message,
-} from "antd";
-import {
-  getArticleList,
-  setArticleSearch,
-  getArticleSearchList,
-} from "../actions";
+import { Row, Col, Input } from "antd";
+import { setArticleSearch, getArticleSearchList } from "../actions";
 import ArticleShow from "./article_show";
 import ArticleList from "./article_list";
 import ArticleCreate from "./article_create";
 import ArticleEdit from "./article_edit";
 import ArticleSearch from "./article_search";
+import Logout from "../logout/logout";
 
 const { Search } = Input;
 
 function Article(props) {
-  const {
-    getArticleList,
-    article,
-    uiData,
-    loginData,
-    setArticleSearch,
-    getArticleSearchList,
-    article: { isDeleteArticlePending, deleteArticleError, deleteData },
-  } = props;
+  const { article, uiData, setArticleSearch, getArticleSearchList } = props;
 
-  useEffect(() => {
-    getArticleList();
-  }, []);
+  const email = localStorage.getItem("email");
+  const login_id = localStorage.getItem("login_id");
 
-  useEffect(() => {
-    if (deleteData?.result?.status == 200) {
-      message.success("Article Succesfully Deleted");
-      getArticleList();
-    }
-  }, [deleteData]);
+  const logOut = () => {
+    localStorage.removeItem("login_id");
+    localStorage.removeItem("email");
+  };
 
-  const logOut = () => {};
+  if (!email || !login_id) {
+    return <Logout />;
+  }
 
   const onSearch = (value) => {
     setArticleSearch(true);
-    getArticleSearchList(loginData?.content?.login_id, value);
+    if (value) {
+      getArticleSearchList(login_id, value);
+    }
   };
+
   return (
     <div id="article">
       <Row className="login-detail">
         <Col span={2} offset={16} onClick={logOut}>
           <a href="/login">Log Out</a>
         </Col>
-        <Col span={6}>{loginData?.content?.email}</Col>
+        <Col span={6} className="email">
+          {email}
+        </Col>
       </Row>
-
-      {(uiData.articleList || uiData.articleShow || uiData.articleSearch) && (
+      {(uiData.articleList || uiData.articleSearch) && (
         <Row>
-          <div className="search">
-            <Search
-              placeholder="Search by Title"
-              onSearch={onSearch}
-              enterButton
-            />
-          </div>
+          <Col span={6} offset={18}>
+            <div className="article-search">
+              <Search
+                placeholder="Search by Title"
+                onSearch={onSearch}
+                enterButton
+              />
+            </div>
+          </Col>
         </Row>
       )}
-      {uiData.articleList && <ArticleList article={article} />}
-      {uiData.articleCreate && <ArticleCreate />}
-      {uiData.articleShow && <ArticleShow />}
-      {uiData.articleEdit && <ArticleEdit />}
+      {uiData.articleList && <ArticleList login_id={login_id} />}
+      {uiData.articleCreate && (
+        <ArticleCreate login_id={login_id} article={article} />
+      )}
+      {uiData.articleShow && <ArticleShow article={article} />}
+      {uiData.articleEdit && (
+        <ArticleEdit
+          login_id={login_id}
+          article={article}
+          articleId={uiData?.editArticleId}
+        />
+      )}
       {uiData.articleSearch && <ArticleSearch article={article} />}
     </div>
   );
@@ -92,7 +84,6 @@ const mapStateToProps = (state) => {
 
 export default {
   component: connect(mapStateToProps, {
-    getArticleList,
     setArticleSearch,
     getArticleSearchList,
   })(Article),

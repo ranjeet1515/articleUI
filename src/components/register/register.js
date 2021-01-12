@@ -25,11 +25,11 @@ function Register(props) {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (registerData?.result?.status == 200) {
+    if (registerData?.result?.status === 200) {
       message.success("Registered succesfully");
       return props.history.push("/login");
     }
-    if (registerData?.result?.status == 403) {
+    if (registerData?.result?.status === 403) {
       message.error("Email Id already exist");
     }
   }, [registerData]);
@@ -52,12 +52,14 @@ function Register(props) {
 
   return (
     <div id="register">
+      <h2>Register</h2>
       <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
         <Form.Item
           label="Email"
           name="email"
           rules={[
             {
+              type: "email",
               required: true,
               message: "Please input your email!",
             },

@@ -1,10 +1,32 @@
 #article .login-detail {
   margin-bottom: 20px;
 }
-#article .ant-input-search {
-  width: 200px;
-}
-#article .search {
-  margin: 20px 0px;
+#article .email {
   text-align: right;
+}
+#article .header {
+  margin: 20px 0px;
+}
+#article-list .list {
+  height: calc(100% - 120px);
+}
+#article-list .details {
+  margin: 20px 0px;
+}
+#article .article-search button {
+  margin: 0px;
+}
+#article-list .details .ant-col:nth-child(2) {
+  text-align: right;
+}
+#article-list .details .ant-col:nth-child(2) button {
+  margin: 0px;
+}
+#article-list .ant-table-tbody > tr > td {
+  padding: 11px 16px;
+}
+#article .search-content {
+  height: 500px;
+  display: block;
+  overflow: auto;
 }
